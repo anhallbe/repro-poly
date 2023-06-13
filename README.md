@@ -1,27 +1,47 @@
 # ReproPoly
 
+Reproducing https://github.com/angular/angular-cli/issues/25369
+
+## Changes
+
+Added the following to the `production` builder config (NOTE: Only `aot` and `optimization` appears to be relevant):
+
+```json
+{
+  "aot": false,
+  "buildOptimizer": false,
+  "extractLicenses": false,
+  "outputHashing": "none",
+  "optimization": true,
+  "sourceMap": false,
+  "vendorChunk": false
+}
+```
+
+Added the following `.browserslistrc`:
+
+```
+> 0.5%
+last 2 versions
+Firefox ESR
+not dead
+not IE 9-11 # For IE 9-11 support, remove 'not'.
+
+```
+
+## Steps to reproduce
+
+1. Check out this repo
+2. Run `npm install`
+3. Run `ng serve --configuration production`
+4. Open http://localhost:4200 (F5 in vscode to start Chrome debugger)
+5. Notice that the page is empty
+6. Open the browser dev tools and notice the error in `polyfills.js`.
+
+```
+
+
+## Notes
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.5.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```
